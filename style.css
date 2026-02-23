@@ -1,0 +1,461 @@
+/* VARIABLES & BASE */
+:root {
+  --primary: #00ff41; /* Vert Terminal */
+  --accent: #ffca00; /* Jaune Alerte */
+  --bg: #0d0d0d;
+  --panel: #161616;
+  --border: #333;
+  --text: #a0a0a0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Courier New", Courier, monospace;
+  line-height: 1.5;
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* EN-TÊTE & ASCII */
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.ascii-art {
+  font-size: 8px;
+  line-height: 8px;
+  color: var(--primary);
+  font-weight: bold;
+  overflow-x: hidden;
+}
+
+.status-bar {
+  margin-top: 15px;
+  font-size: 12px;
+  background: var(--panel);
+  padding: 8px;
+  border: 1px solid var(--border);
+}
+.status {
+  margin: 0 10px;
+}
+.online {
+  color: var(--primary);
+  text-shadow: 0 0 5px var(--primary);
+}
+.offline {
+  color: rgb(255, 0, 0, 1);
+  text-shadow: 0 0 5px rgb(255, 0, 0, 1);
+}
+@media (max-width: 600px) {
+  .ascii-art {
+    font-size: 5px; /* Réduit la taille pour que le texte ne se casse pas sur mobile */
+    line-height: 5px;
+  }
+}
+.stock {
+  color: var(--accent);
+}
+
+/* NAVIGATION */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: var(--primary);
+  padding: 10px;
+  margin-bottom: 30px;
+}
+.main-nav a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+.main-nav a:hover {
+  background: #000;
+  color: var(--primary);
+}
+
+/* LAYOUT 2 COLONNES */
+.main-layout {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.content-area {
+  flex: 2;
+}
+.sidebar {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+a {
+  color: var(--primary);
+}
+a:hover {
+  text-decoration: none;
+}
+
+/* BLOCS COMMUNS */
+h2,
+h3 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+.post {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.post-meta {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.sidebar-block {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 15px;
+}
+.sidebar-block h3 {
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  color: var(--accent);
+}
+
+/* AUTH & INPUTS */
+input {
+  width: 100%;
+  background: #000;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  padding: 8px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.auth-btns {
+  display: flex;
+  gap: 5px;
+}
+.auth-btns button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 5px;
+}
+.auth-btns button:hover {
+  background: var(--primary);
+  color: #000;
+}
+
+/* CHAT ZONE */
+.chat-window {
+  height: 250px;
+  overflow-y: auto;
+  background: #000;
+  padding: 10px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+.chat-msg {
+  margin-bottom: 8px;
+  border-bottom: 1px dotted #222;
+}
+.user {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.prompt {
+  color: var(--primary);
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+/* DIVERS */
+.btn-indie {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 8px 15px;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: 15px;
+}
+.locked-content {
+  background: #222;
+  color: #444;
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed #444;
+}
+footer {
+  text-align: center;
+  padding: 40px;
+  font-size: 11px;
+  opacity: 0.5;
+}
+footer a {
+  color: var(--primary);
+}
+
+/* MOBILE */
+@media (max-width: 850px) {
+  .main-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    position: static;
+    width: 100%;
+  }
+}
+#products-catalog {
+  margin-top: 30px;
+}
+
+.product-card {
+  background: #111;
+  border: 2px double var(--border);
+  margin-bottom: 30px;
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.product-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.product-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-info h3 {
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.specs {
+  font-size: 11px;
+  background: #1a1a1a;
+  padding: 2px 5px;
+  display: inline-block;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+p.description {
+  text-align: justify;
+  margin-right: 30px;
+}
+
+.product-price {
+  text-align: right;
+  font-family: "Orbitron", sans-serif;
+  font-weight: bold;
+  color: #fff;
+}
+
+.amount {
+  font-size: 1.5rem;
+}
+.currency {
+  font-size: 0.8rem;
+  margin-left: 5px;
+}
+
+.product-footer {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.product-visual {
+  position: relative;
+  width: 200px; /* Taille fixe pour garder l'aspect dossier */
+  height: 150px;
+  margin-right: 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.product-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  filter: grayscale(1) contrast(1.2); /* Look industriel noir et blanc */
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .product-visual img {
+  filter: grayscale(0) contrast(1); /* La couleur revient au survol */
+  opacity: 1;
+}
+
+/* L'effet de balayage sur l'image uniquement */
+.scanline-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+.product-content {
+  display: block; /* On enlève le flexbox ici pour permettre l'enroulement */
+  text-align: justify; /* Optionnel : rend l'enroulement plus propre style "journal" */
+}
+
+.product-visual {
+  float: left; /* C'est cette propriété qui crée l'enroulement */
+  width: 250px;
+  margin-right: 20px; /* Espace entre l'image et le texte à droite */
+  margin-bottom: 10px; /* Espace si le texte passe en dessous */
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+/* On s'assure que le footer (bouton acheter) ne remonte pas dans l'enroulement */
+.product-footer {
+  clear: both;
+  margin-top: 20px;
+  text-align: right;
+}
+
+.product-price {
+  display: inline-block;
+  margin-top: 15px;
+  font-weight: bold;
+  color: #fff;
+}
+.btn-buy {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 5px 15px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-buy:hover {
+  background: var(--primary);
+  color: #000;
+}
+/* L'effet de scanlines qui couvre l'écran */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size:
+    100% 2px,
+    3px 100%;
+  pointer-events: none; /* Ne bloque pas les clics */
+  z-index: 9999;
+  opacity: 0;
+}
+
+/* Animation de flash/glitch */
+@keyframes crt-glitch {
+  0% {
+    opacity: 0.5;
+    transform: scaleY(1);
+  }
+  10% {
+    opacity: 0.8;
+    transform: scaleY(1.02);
+    filter: brightness(2);
+  }
+  20% {
+    opacity: 0.3;
+    transform: scaleY(0.98);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+
+.glitch-active {
+  animation: crt-glitch 0.3s ease-out;
+}
+
+/* Petit effet de fade-in pour le contenu */
+.page-view {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.justified {
+  text-align: justify;
+}

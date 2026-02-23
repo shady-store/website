@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RetroNexus // Projet Indie Underground</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="terminal-overlay" class="crt-overlay"></div>
+    <header>
+      <pre class="ascii-art">
+   _____ __  _____    ______  _________________  ____  ______
+  / ___// / / /   |  / __ \ \/ / ___/_  __/ __ \/ __ \/ ____/
+  \__ \/ /_/ / /| | / / / /\  /\__ \ / / / / / / /_/ / __/   
+ ___/ / __  / ___ |/ /_/ / / /___/ // / / /_/ / _, _/ /___   
+/____/_/ /_/_/  |_/_____/ /_//____//_/  \____/_/ |_/_____/   
+        </pre
+      >
+      <div class="status-bar">
+        <span class="status"
+          >● CLOUD(FR): <span class="offline">OFFLINE</span></span
+        >
+        <span class="status"
+          >● RETROPOCKET BATCH #01: <span class="stock">1/4 DISPOS</span></span
+        >
+      </div>
+    </header>
+
+    <nav class="main-nav">
+      <a href="#news">[00] LE_PROJET</a>
+      <a href="#builds">[01] LA_BOUTIQUE</a>
+      <a href="#about">[02] MANIFESTE</a>
+    </nav>
+
+    <div class="main-layout">
+      <main class="content-area">
+        <section id="view-news" class="page-view">
+          <section id="intro" class="intro">
+            <h2>>_ LE_PROJET</h2>
+            <p>
+              Salut, je m'appelle Olivier et ce site présente mes différents
+              projets autour du retro-gaming et de la sécurité informatique.
+              Vous pouvez également les acheter via la boutique.
+            </p>
+          </section>
+          <section id="post1" class="post">
+            <h3>// BUILD_LOG #04 : RETROPOCKET (WIP)</h3>
+            <div class="post-meta">Posté le : 21.02.2026 | Cat : Hardware</div>
+            <p>
+              Tout est prêt pour le lancement je peaufine les derniers détails.
+              <a target="_blank" href="https://youtube.com/shadystore"
+                >Voir les vidéos de présentation.</a
+              >
+            </p>
+          </section>
+          <section id="post2" class="post">
+            <h3>// BUILD_LOG #03 : RETROPOCKET (WIP)</h3>
+            <div class="post-meta">Posté le : 21.02.2026 | Cat : Hardware</div>
+            <p>
+              J'ai enfin réussi à stabiliser l'alimentation sur la base
+              Raspberry Pi 5. L'écran IPS 3.5" est monté, la coque en impression
+              3D brute donne ce look industriel que je cherchais.
+            </p>
+            <a target="_blank" href="https://picasa.com">Voir les photos</a>
+          </section>
+        </section>
+        <section id="view-builds" class="page-view" style="display: none">
+          <h2>>_ LA_BOUTIQUE</h2>
+          <article class="product-card">
+            <div class="product-header">
+              <span class="product-id">ID: #001-NEXUS</span>
+              <span class="product-status online">EN STOCK</span>
+            </div>
+
+            <div class="product-title-area">
+              <h3>RETROPOCKET</h3>
+              <p class="specs">
+                CPU: RK3566 | RAM: 2Go | 16Go emmc, 128Go sdcard | Corps
+                Aluminium
+              </p>
+            </div>
+
+            <div class="product-content">
+              <div class="product-visual">
+                <img src="retropocket.jpg" alt="RetroPocket" />
+                <div class="scanline-effect"></div>
+              </div>
+
+              <p class="description">
+                Le retropocket vous permet de rejouer aux consoles de votre
+                enfance en 8, 16 et 32 bits jusqu'à la Playstation 1 et même
+                certains jeux Dreamcast le tout dans un format de la taille
+                d'une demi CB. Pas besoin d'écran: l'image est envoyée via wifi
+                directement sur le navigateur.
+              </p>
+
+              <div class="product-price">
+                <span class="amount">249.00</span
+                ><span class="currency">EUR</span>
+              </div>
+            </div>
+
+            <div class="product-footer">
+              <button
+                class="btn-buy"
+                disabled="true"
+                onclick="addToOrder('001')"
+              >
+                ACHETER
+              </button>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-header">
+              <span class="product-id">ID: #001-CLOUD</span>
+              <span class="product-status">NON DISPONIBLE</span>
+            </div>
+            <div class="product-body">
+              <div class="product-info">
+                <h3>RETROCLOUD</h3>
+                <p class="specs">ACCES: MOONLIGHT | | REGION: FRANCE</p>
+                <p>
+                  VM Windows 98 avec accélération GPU et accès la communauté.
+                </p>
+              </div>
+              <div class="product-price">
+                <span class="amount">120.00</span
+                ><span class="currency">EUR</span>
+              </div>
+            </div>
+            <div class="product-footer"></div>
+          </article>
+        </section>
+        <section id="view-about" class="page-view" style="display: none">
+          <h2>>_ MANIFESTE</h2>
+          <p class="justified">
+            Ce site regroupe des informations autour des réalisations techniques
+            que j’ai mises en place au cours du temps. Ce sont souvent des défis
+            que je me suis jetés par rapport à la résolution d’un problème du
+            quotidien.<br /><br />
+            Plutôt que de garder ces solutions pour moi je me suis dit qu’il
+            serait enrichissant de les partager sous forme de tutoriels qui vous
+            permettraient d’en bénéficier, ou, pour ceux qui le souhaitent,
+            parfois directement sous la forme d’un produit fini.<br /><br />
+            Attention cependant, je ne prétends pas être un professionnel ni
+            même un puriste, vous ne trouverez donc pas ici d’informations ultra
+            pointues pour par exemple émuler une console pixel perfect ou encore
+            obtenir une latence native. J’aborde les sujets sous l’angle de la
+            solution technique qui me convient, pragmatique et innovante et si
+            possible communautaire.<br /><br />
+            Le projet s’inscrit également dans un contexte particulier, celui où
+            l’espace et la vie numérique deviennent de plus en plus ostiles aux
+            individus au travers des agissements des Etats, des corporations ou
+            des activistes. <br /><br />
+            C’est pourquoi il me semble aujourd’hui primordial de retrouver une
+            forme de souveraineté et de liberté dans l’usage de l’outil
+            numérique. C’est en ce sens que mon approche est engagée.
+            <br /><br />
+            Pour ces mêmes raisons vous ne trouverez pas d’informations
+            permettant de m’identifier et je m’engage à ne vous en réclamer et
+            donc conserver aucune vous concernant.<br /><br />
+            Les comptes et les paiements sont donc anonymisés au travers de
+            l’utilisation de Monero (XMR) et je vous invite fortement à utiliser
+            une adresse email jetable dédiée pour votre compte utilisateur.<br /><br />
+            Je crois que le temps est venu de retourner aux sources d’internet à
+            savoir un réseau anonyme et décentralisé garant de la liberté
+            d’usage de chacun.<br /><br />
+            Olivier.
+          </p>
+        </section>
+      </main>
+
+      <aside class="sidebar">
+        <section id="auth-node" class="sidebar-block">
+          <h3>[ AUTH_SYSTEM ]</h3>
+          <div class="auth-box">
+            <input type="email" id="email" placeholder="ID: email" />
+            <input type="password" id="password" placeholder="PW: password" />
+            <div class="auth-btns">
+              <button onclick="login()">LOGIN</button>
+              <button onclick="register()">SIGNUP</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="chat-node" class="sidebar-block">
+          <h3>[ LIVE_CHAT ]</h3>
+          <div class="chat-container">
+            <div id="chat-window" class="chat-window">
+              <div class="chat-msg">
+                <span class="user">[Admin]</span>: Bienvenue sur le canal.
+              </div>
+              <div class="chat-msg">
+                <span class="user">RetroKid</span>: Quelqu'un a un écran de rab
+                ?
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" id="user-input" placeholder="Message..." />
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <footer>
+      <p>Shadystore 2026</p>
+    </footer>
+
+    <script>
+      const input = document.getElementById("user-input");
+      const chatWindow = document.getElementById("chat-window");
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && input.value.trim() !== "") {
+          const div = document.createElement("div");
+          div.className = "chat-msg";
+          div.innerHTML = `<span class="user">Moi</span>: ${input.value}`;
+          chatWindow.appendChild(div);
+          input.value = "";
+          chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+      });
+      function showView(viewId) {
+        setTimeout(() => {
+          // 1. On cache toutes les vues
+          document.querySelectorAll(".page-view").forEach((view) => {
+            view.style.display = "none";
+          });
+
+          // 2. On affiche celle demandée
+          document.getElementById(viewId).style.display = "block";
+
+          // 3. Petit effet "Terminal" : on scroll en haut de la zone de contenu
+          window.scrollTo(0, 0);
+        }, 300);
+      }
+
+      // Liaison avec tes liens de navigation
+      document.querySelectorAll(".main-nav a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault(); // Empêche le saut de page
+          const overlay = document.getElementById("terminal-overlay");
+
+          // 1. Déclenche l'effet visuel
+          overlay.classList.remove("glitch-active");
+          void overlay.offsetWidth; // Force le redémarrage de l'animation
+          overlay.classList.add("glitch-active");
+          const target = link.getAttribute("href").replace("#", "");
+
+          if (target === "news") showView("view-news");
+          if (target === "builds") showView("view-builds");
+          if (target === "about") showView("view-about");
+        });
+      });
+    </script>
+  </body>
+</html>
