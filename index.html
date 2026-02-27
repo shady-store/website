@@ -3,8 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RetroNexus // Projet Indie Underground</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>Shadystore</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.21.1/pocketbase.umd.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   </head>
   <body>
     <div id="terminal-overlay" class="crt-overlay"></div>
@@ -28,43 +39,33 @@
     </header>
 
     <nav class="main-nav">
-      <a href="#news">[00] LE_PROJET</a>
-      <a href="#builds">[01] LA_BOUTIQUE</a>
-      <a href="#about">[02] MANIFESTE</a>
+      <a href="#news">[00] LES_ACTUS</a>
+      <!--a href="#articles">[01] LES_ARTICLES</a-->
+      <div class="dropdown">
+        <a href="#articles" class="dropbtn">[01] LES_ARTICLES ▼</a>
+        <div class="dropdown-content" id="article-submenu"></div>
+      </div>
+      <a href="#builds">[02] LA_BOUTIQUE</a>
+      <a href="#about">[03] MANIFESTE</a>
     </nav>
 
     <div class="main-layout">
       <main class="content-area">
         <section id="view-news" class="page-view">
           <section id="intro" class="intro">
-            <h2>>_ LE_PROJET</h2>
+            <h2>>_ LES_ACTUS</h2>
             <p>
               Salut, je m'appelle Olivier et ce site présente mes différents
               projets autour du retro-gaming et de la sécurité informatique.
               Vous pouvez également les acheter via la boutique.
             </p>
           </section>
-          <section id="post1" class="post">
-            <h3>// BUILD_LOG #04 : RETROPOCKET (WIP)</h3>
-            <div class="post-meta">Posté le : 21.02.2026 | Cat : Hardware</div>
-            <p>
-              Tout est prêt pour le lancement je peaufine les derniers détails.
-              <a target="_blank" href="https://youtube.com/shadystore"
-                >Voir les vidéos de présentation.</a
-              >
-            </p>
-          </section>
-          <section id="post2" class="post">
-            <h3>// BUILD_LOG #03 : RETROPOCKET (WIP)</h3>
-            <div class="post-meta">Posté le : 21.02.2026 | Cat : Hardware</div>
-            <p>
-              J'ai enfin réussi à stabiliser l'alimentation sur la base
-              Raspberry Pi 5. L'écran IPS 3.5" est monté, la coque en impression
-              3D brute donne ce look industriel que je cherchais.
-            </p>
-            <a target="_blank" href="https://picasa.com">Voir les photos</a>
-          </section>
         </section>
+        <section
+          id="view-articles"
+          class="page-view"
+          style="display: none"
+        ></section>
         <section id="view-builds" class="page-view" style="display: none">
           <h2>>_ LA_BOUTIQUE</h2>
           <article class="product-card">
@@ -172,7 +173,7 @@
       </main>
 
       <aside class="sidebar">
-        <section id="auth-node" class="sidebar-block">
+        <!--section id="auth-node" class="sidebar-block">
           <h3>[ AUTH_SYSTEM ]</h3>
           <div class="auth-box">
             <input type="email" id="email" placeholder="ID: email" />
@@ -182,20 +183,36 @@
               <button onclick="register()">SIGNUP</button>
             </div>
           </div>
+        </section-->
+        <section id="auth-node" class="sidebar-block">
+          <h3>[ AUTH_SYSTEM ]</h3>
+          <div id="auth-logged-out" class="auth-box">
+            <input type="email" id="email" placeholder="ID: email" />
+            <input type="password" id="password" placeholder="PW: password" />
+            <div class="auth-btns">
+              <button onclick="login()">LOGIN</button>
+              <button onclick="register()">SIGNUP</button>
+            </div>
+          </div>
+
+          <div id="auth-logged-in" class="auth-box" style="display: none">
+            <p class="specs">
+              STATUS: <span class="online">AUTHENTIFIED</span>
+            </p>
+            <p
+              id="user-display"
+              style="margin: 10px 0; color: var(--primary-color)"
+            >
+              USER: none
+            </p>
+            <button onclick="logout()" style="width: 100%">LOGOUT</button>
+          </div>
         </section>
 
         <section id="chat-node" class="sidebar-block">
           <h3>[ LIVE_CHAT ]</h3>
           <div class="chat-container">
-            <div id="chat-window" class="chat-window">
-              <div class="chat-msg">
-                <span class="user">[Admin]</span>: Bienvenue sur le canal.
-              </div>
-              <div class="chat-msg">
-                <span class="user">RetroKid</span>: Quelqu'un a un écran de rab
-                ?
-              </div>
-            </div>
+            <div id="chat-window" class="chat-window"></div>
             <div class="chat-input-area">
               <input type="text" id="user-input" placeholder="Message..." />
             </div>
@@ -203,56 +220,48 @@
         </section>
       </aside>
     </div>
+    <!-- POPUP -->
+    <div id="register-modal" class="modal">
+      <div class="modal-content post">
+        <h3>// SYSTEM_REGISTRATION</h3>
+        <p class="specs">REQUIS: EMAIL JETABLE CONSEILLÉ</p>
+
+        <div class="auth-box">
+          <input type="email" id="reg-email" placeholder="ID: email" />
+          <input type="password" id="reg-password" placeholder="PW: password" />
+          <input
+            type="password"
+            id="reg-password-confirm"
+            placeholder="PW: confirmation"
+          />
+
+          <div class="auth-btns">
+            <button onclick="executeRegister()">VALIDER_INSCRIPTION</button>
+            <button onclick="closeRegister()">ANNULER</button>
+          </div>
+        </div>
+        <div
+          id="reg-error"
+          class="offline"
+          style="margin-top: 10px; font-size: 0.8em"
+        ></div>
+      </div>
+    </div>
 
     <footer>
       <p>Shadystore 2026</p>
     </footer>
 
+    <script src="js/interface.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-      const input = document.getElementById("user-input");
-      const chatWindow = document.getElementById("chat-window");
-      input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && input.value.trim() !== "") {
-          const div = document.createElement("div");
-          div.className = "chat-msg";
-          div.innerHTML = `<span class="user">Moi</span>: ${input.value}`;
-          chatWindow.appendChild(div);
-          input.value = "";
-          chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-      });
-      function showView(viewId) {
-        setTimeout(() => {
-          // 1. On cache toutes les vues
-          document.querySelectorAll(".page-view").forEach((view) => {
-            view.style.display = "none";
-          });
-
-          // 2. On affiche celle demandée
-          document.getElementById(viewId).style.display = "block";
-
-          // 3. Petit effet "Terminal" : on scroll en haut de la zone de contenu
-          window.scrollTo(0, 0);
-        }, 300);
-      }
-
-      // Liaison avec tes liens de navigation
-      document.querySelectorAll(".main-nav a").forEach((link) => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault(); // Empêche le saut de page
-          const overlay = document.getElementById("terminal-overlay");
-
-          // 1. Déclenche l'effet visuel
-          overlay.classList.remove("glitch-active");
-          void overlay.offsetWidth; // Force le redémarrage de l'animation
-          overlay.classList.add("glitch-active");
-          const target = link.getAttribute("href").replace("#", "");
-
-          if (target === "news") showView("view-news");
-          if (target === "builds") showView("view-builds");
-          if (target === "about") showView("view-about");
-        });
-      });
+      // 1. Import du SDK (si pas déjà fait via CDN dans le head)
+      const pb = new PocketBase("https://www.shady-store.com");
+      // INITIALISATION : On lance la vérification au chargement de la page
+      updateAuthUI();
+      loadNews();
+      populateArticleSubmenu();
     </script>
   </body>
 </html>
