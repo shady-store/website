@@ -16,6 +16,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   </head>
   <body>
     <div id="terminal-overlay" class="crt-overlay"></div>
@@ -40,12 +41,11 @@
 
     <nav class="main-nav">
       <a href="#news">[00] LES_ACTUS</a>
-      <!--a href="#articles">[01] LES_ARTICLES</a-->
       <div class="dropdown">
         <a href="#articles" class="dropbtn">[01] LES_ARTICLES ▼</a>
         <div class="dropdown-content" id="article-submenu"></div>
       </div>
-      <a href="#builds">[02] LA_BOUTIQUE</a>
+      <a href="#products">[02] LA_BOUTIQUE</a>
       <a href="#about">[03] MANIFESTE</a>
     </nav>
 
@@ -66,72 +66,8 @@
           class="page-view"
           style="display: none"
         ></section>
-        <section id="view-builds" class="page-view" style="display: none">
+        <section id="view-products" class="page-view" style="display: none">
           <h2>>_ LA_BOUTIQUE</h2>
-          <article class="product-card">
-            <div class="product-header">
-              <span class="product-id">ID: #001-NEXUS</span>
-              <span class="product-status online">EN STOCK</span>
-            </div>
-
-            <div class="product-title-area">
-              <h3>RETROPOCKET</h3>
-              <p class="specs">
-                CPU: RK3566 | RAM: 2Go | 16Go emmc, 128Go sdcard | Corps
-                Aluminium
-              </p>
-            </div>
-
-            <div class="product-content">
-              <div class="product-visual">
-                <img src="retropocket.jpg" alt="RetroPocket" />
-                <div class="scanline-effect"></div>
-              </div>
-
-              <p class="description">
-                Le retropocket vous permet de rejouer aux consoles de votre
-                enfance en 8, 16 et 32 bits jusqu'à la Playstation 1 et même
-                certains jeux Dreamcast le tout dans un format de la taille
-                d'une demi CB. Pas besoin d'écran: l'image est envoyée via wifi
-                directement sur le navigateur.
-              </p>
-
-              <div class="product-price">
-                <span class="amount">249.00</span
-                ><span class="currency">EUR</span>
-              </div>
-            </div>
-
-            <div class="product-footer">
-              <button
-                class="btn-buy"
-                disabled="true"
-                onclick="addToOrder('001')"
-              >
-                ACHETER
-              </button>
-            </div>
-          </article>
-          <article class="product-card">
-            <div class="product-header">
-              <span class="product-id">ID: #001-CLOUD</span>
-              <span class="product-status">NON DISPONIBLE</span>
-            </div>
-            <div class="product-body">
-              <div class="product-info">
-                <h3>RETROCLOUD</h3>
-                <p class="specs">ACCES: MOONLIGHT | | REGION: FRANCE</p>
-                <p>
-                  VM Windows 98 avec accélération GPU et accès la communauté.
-                </p>
-              </div>
-              <div class="product-price">
-                <span class="amount">120.00</span
-                ><span class="currency">EUR</span>
-              </div>
-            </div>
-            <div class="product-footer"></div>
-          </article>
         </section>
         <section id="view-about" class="page-view" style="display: none">
           <h2>>_ MANIFESTE</h2>
@@ -173,17 +109,6 @@
       </main>
 
       <aside class="sidebar">
-        <!--section id="auth-node" class="sidebar-block">
-          <h3>[ AUTH_SYSTEM ]</h3>
-          <div class="auth-box">
-            <input type="email" id="email" placeholder="ID: email" />
-            <input type="password" id="password" placeholder="PW: password" />
-            <div class="auth-btns">
-              <button onclick="login()">LOGIN</button>
-              <button onclick="register()">SIGNUP</button>
-            </div>
-          </div>
-        </section-->
         <section id="auth-node" class="sidebar-block">
           <h3>[ AUTH_SYSTEM ]</h3>
           <div id="auth-logged-out" class="auth-box">
@@ -221,6 +146,27 @@
       </aside>
     </div>
     <!-- POPUP -->
+    <dialog id="payment-popup" class="retro-border">
+      <div class="popup-content">
+        <h2>> CONFIRMER_COMMANDE</h2>
+        <hr />
+        <p>Objet : <span id="popup-item-name"></span></p>
+        <p>Prix : <span id="popup-item-price"></span> XMR</p>
+
+        <div class="qr-container">
+          <div id="qrcode"></div>
+        </div>
+
+        <p class="crypto-address">Adresse : <span id="popup-address"></span></p>
+
+        <div class="popup-actions">
+          <a href="#" id="wallet-link" class="btn-retro">[ OUVRIR_WALLET ]</a>
+          <button onclick="closePopup()" class="btn-retro-red">
+            [ ANNULER ]
+          </button>
+        </div>
+      </div>
+    </dialog>
     <div id="register-modal" class="modal">
       <div class="modal-content post">
         <h3>// SYSTEM_REGISTRATION</h3>
@@ -252,13 +198,14 @@
       <p>Shadystore 2026</p>
     </footer>
 
-    <script src="js/interface.js"></script>
-    <script src="js/chat.js"></script>
-    <script src="js/auth.js"></script>
     <script>
-      // 1. Import du SDK (si pas déjà fait via CDN dans le head)
       const pb = new PocketBase("https://www.shady-store.com");
-      // INITIALISATION : On lance la vérification au chargement de la page
+    </script>
+    <script src="js/auth.js"></script>
+    <script src="js/boutique.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/interface.js"></script>
+    <script>
       updateAuthUI();
       loadNews();
       populateArticleSubmenu();

@@ -275,7 +275,7 @@ footer a {
   align-items: center;
 }
 
-.product-info h3 {
+.product-title-area h3 {
   color: var(--primary);
   margin-bottom: 5px;
 }
@@ -521,4 +521,68 @@ p.description {
 /* Affiche le menu au survol */
 .dropdown:hover .dropdown-content {
   display: block;
+}
+dialog {
+  max-width: 400px;
+  background: #000;
+  border: 1px solid #00ff00;
+  padding: 20px;
+  color: var(--text);
+  width: 90%;
+  max-width: 400px;
+
+  /* --- CENTRAGE MAGIQUE --- */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0; /* Important pour enlever les marges par défaut */
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8); /* Fond sombre derrière */
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.qr-container {
+  background: white; /* QR code mieux lisible sur fond blanc */
+  padding: 10px;
+  margin: 15px 0;
+}
+
+.crypto-address {
+  font-size: 0.8rem;
+  word-break: break-all; /* Pour les longues adresses */
+  margin-bottom: 20px;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+/* --- Boutons Désactivés (Rétro/Terminal) --- */
+button:disabled,
+.btn-buy:disabled {
+  background: transparent;
+  border: 1px solid #444; /* Bordure gris sombre */
+  color: #444; /* Texte gris sombre */
+  cursor: not-allowed; /* Curseur interdit */
+  opacity: 0.6; /* Légèrement transparent */
+  text-shadow: none; /* Pas d'effet lumineux */
+  box-shadow: none; /* Pas d'effet de surbrillance */
+}
+
+/* Pour s'assurer que le survol ne change rien */
+button:disabled:hover,
+.btn-buy:disabled:hover {
+  background: transparent;
+  color: #444;
+  border: 1px solid #444;
 }

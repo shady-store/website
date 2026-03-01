@@ -80,6 +80,7 @@ async function login() {
       return;
     }
     updateAuthUI();
+    updateProductsUI();
     console.log("Login réussi");
   } catch (err) {
     alert("ERREUR D'ACCÈS: Vérifiez vos identifiants.");

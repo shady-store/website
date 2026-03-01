@@ -26,7 +26,10 @@ document.querySelectorAll(".main-nav a").forEach((link) => {
 
     if (target === "news") showView("view-news");
     if (target === "articles");
-    if (target === "builds") showView("view-builds");
+    if (target === "products") {
+      loadProducts();
+      showView("view-products");
+    }
     if (target === "about") showView("view-about");
   });
 });
