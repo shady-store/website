@@ -1,9 +1,10 @@
 async function loadChatHistory() {
+  const chatWindow = document.getElementById("chat-window");
+  chatWindow.innerHTML = "";
   try {
     // On récupère la page 1, avec 50 éléments
     const resultList = await pb.collection("messages").getList(1, 50, {
       sort: "-created", // Les plus récents en premier
-      expand: "user", // Indispensable pour avoir l'email/username !
     });
 
     // Comme on les a récupérés du plus récent au plus ancien,
@@ -19,30 +20,20 @@ async function loadChatHistory() {
 }
 async function subscribeToMessages() {
   // On s'abonne à TOUS les événements sur la collection 'messages'
-  pb.collection("messages").subscribe(
-    "*",
-    function (e) {
-      if (e.action === "create") {
-        console.log(
-          "Nouveau message reçu :",
-          e.record.text,
-          "utilisateur : ",
-          e.record.expand.user.email,
-        );
-        renderMessage(e.record); // Une fonction pour ajouter le message au HTML
-      }
-    },
-    { expand: "user" },
-  );
+  pb.collection("messages").subscribe("*", function (e) {
+    if (e.action === "create") {
+      renderMessage(e.record); // Une fonction pour ajouter le message au HTML
+    }
+  });
 }
 async function renderMessage(record) {
   const chatWindow = document.getElementById("chat-window");
   const div = document.createElement("div");
   div.className = "chat-msg";
-  div.innerHTML = `<span class="user">${record.expand.user.name}</span>:<span class="content">${record.text}</span>`;
+  div.innerHTML = `<span class="user"></span>:<span class="content"></span>`;
 
   // MAIS on utilise textContent pour les données utilisateur
-  div.querySelector(".user").textContent = record.expand.user.name;
+  div.querySelector(".user").textContent = record.username;
   div.querySelector(".content").textContent = record.text;
   chatWindow.appendChild(div);
   chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -63,7 +54,8 @@ async function sendMessage() {
     // On prépare la donnée avec l'ID de l'utilisateur actuellement connecté
     const data = {
       text: content,
-      user: pb.authStore.model.id,
+      username: pb.authStore.model.name,
+      userid: pb.authStore.model.id,
     };
 
     // On ATTEND que le serveur confirme l'enregistrement

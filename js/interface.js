@@ -47,7 +47,6 @@ async function loadNews() {
     records.forEach((news) => {
       const date = new Date(news.created).toLocaleDateString();
 
-      console.log(news);
       // On crée le HTML façon "Terminal"
       const article = `
           <section id="news1" class="news">
@@ -163,4 +162,24 @@ async function showFullArticle(postId) {
             </div>
         `;
   }
+}
+function setupMobileMenu() {
+  const dropdownBtn = document.querySelector(".dropbtn");
+  const dropdownContent = document.querySelector(".dropdown-content");
+
+  if (!dropdownBtn || !dropdownContent) return;
+
+  dropdownBtn.addEventListener("click", (e) => {
+    // On vérifie si on est en mode mobile (écran < 600px)
+    if (window.innerWidth <= 600) {
+      e.preventDefault(); // Empêche de suivre le lien "#articles"
+
+      // Toggle l'affichage du sous-menu
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    }
+  });
 }

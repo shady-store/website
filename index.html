@@ -150,18 +150,50 @@
       <div class="popup-content">
         <h2>> CONFIRMER_COMMANDE</h2>
         <hr />
-        <p>Objet : <span id="popup-item-name"></span></p>
-        <p>Prix : <span id="popup-item-price"></span> XMR</p>
 
-        <div class="qr-container">
-          <div id="qrcode"></div>
+        <div id="payment-details">
+          <p>Objet : <span id="popup-item-name"></span></p>
+          <p style="font-size: 0.8rem; color: #aaa" id="order-id-display"></p>
+
+          <div class="crypto-options">
+            <button onclick="selectCrypto('xmr')" class="btn-retro">XMR</button>
+            <button onclick="selectCrypto('btc')" class="btn-retro">BTC</button>
+          </div>
+
+          <div class="qr-container" style="text-align: center">
+            <div id="qrcode"></div>
+          </div>
+
+          <p class="crypto-address" style="word-break: break-all">
+            Adresse (<span id="crypto-type"></span>) : <br />
+            <span id="popup-address" style="color: var(--accent)"></span>
+          </p>
+          <p>
+            Total : <span id="popup-item-price-eur"></span> (<span
+              id="popup-amount-crypto"
+            ></span
+            >)
+          </p>
         </div>
 
-        <p class="crypto-address">Adresse : <span id="popup-address"></span></p>
+        <div
+          class="popup-actions"
+          style="
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+          "
+        >
+          <button
+            onclick="finalizeOrder()"
+            class="btn-retro"
+            id="confirm-order-btn"
+          >
+            [CONFIRMER_PAIEMENT]
+          </button>
 
-        <div class="popup-actions">
-          <a href="#" id="wallet-link" class="btn-retro">[ OUVRIR_WALLET ]</a>
-          <button onclick="closePopup()" class="btn-retro-red">
+          <button onclick="cancelOrderInPopup()" class="btn-retro-red">
             [ ANNULER ]
           </button>
         </div>
@@ -206,6 +238,7 @@
     <script src="js/chat.js"></script>
     <script src="js/interface.js"></script>
     <script>
+      setupMobileMenu();
       updateAuthUI();
       loadNews();
       populateArticleSubmenu();

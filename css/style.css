@@ -51,6 +51,10 @@ header {
   color: var(--primary);
   text-shadow: 0 0 5px var(--primary);
 }
+.comingup {
+  color: var(--accent);
+  text-shadow: 0 0 5px var(--accent);
+}
 .offline {
   color: rgb(255, 0, 0, 1);
   text-shadow: 0 0 5px rgb(255, 0, 0, 1);
@@ -63,26 +67,6 @@ header {
 }
 .stock {
   color: var(--accent);
-}
-
-/* NAVIGATION */
-.main-nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  background: var(--primary);
-  padding: 10px;
-  margin-bottom: 30px;
-}
-.main-nav a {
-  color: #000;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 14px;
-}
-.main-nav a:hover {
-  background: #000;
-  color: var(--primary);
 }
 
 /* LAYOUT 2 COLONNES */
@@ -484,14 +468,42 @@ p.description {
   margin-top: 0;
   color: #00ff00;
 }
+/* --- Styles de base et Survol (Desktop) --- */
+.main-nav a:hover,
+.main-nav a:focus {
+  /* focus aide pour le clavier/mobile */
+  background: #000;
+  color: var(--primary);
+}
+/* --- NAVIGATION RÉVISÉE --- */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: var(--primary);
+  padding: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si besoin */
+}
+
+.main-nav a {
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap; /* Empêche le texte de se couper en deux */
+}
+
+.main-nav a:hover {
+  background: #000;
+  color: var(--primary);
+}
+
+/* --- DROPDOWN --- */
 .dropdown {
   position: relative;
-  display: inline-block; /* Aligne le div avec les liens <a> */
-  vertical-align: top; /* Aligne proprement en haut */
-}
-/* Le lien spécifique pour le dropdown */
-.dropbtn {
-  display: block; /* Nécessaire pour que le padding fonctionne bien */
+  display: inline-block;
 }
 
 .dropdown-content {
@@ -499,28 +511,64 @@ p.description {
   position: absolute;
   background-color: #000;
   min-width: 220px;
-  border: 1px solid #00ff00;
+  border: 1px solid var(--primary);
   z-index: 1000;
-  padding: 10px 0;
-  top: 100%; /* Positionne le sous-menu juste en dessous */
-  left: 0;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* Centre le menu sous le bouton */
+  padding: 5px 0;
 }
 
 .dropdown-content a {
-  color: #00ff00;
-  padding: 8px 16px;
-  text-decoration: none;
+  color: var(--primary);
+  padding: 10px 15px;
   display: block;
   font-size: 0.9rem;
+  text-align: left; /* Aligne le texte à gauche dans le menu */
 }
 
 .dropdown-content a:hover {
   background-color: rgba(0, 255, 0, 0.1);
 }
 
-/* Affiche le menu au survol */
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+/* --- ADAPTATION MOBILE (MEDIA QUERY) --- */
+@media (max-width: 600px) {
+  .main-nav {
+    flex-direction: column; /* Menu vertical */
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .dropdown-content {
+    position: static; /* Le menu déroulant s'ouvre "entre" les liens */
+    transform: none;
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--primary);
+    border-bottom: 1px solid var(--primary);
+    background-color: #0d0d0d;
+  }
+
+  .dropdown-content a {
+    text-align: center;
+    padding: 8px;
+  }
+  /* Sur mobile, on enlève le hover CSS qui cause des soucis */
+  .main-nav a:hover {
+    background: var(--primary);
+    color: #000;
+  }
+
+  /* On ajoute un effet au toucher (clic) */
+  .main-nav a:active {
+    background: #000;
+    color: var(--primary);
+  }
 }
 dialog {
   max-width: 400px;
@@ -543,6 +591,12 @@ dialog::backdrop {
   background: rgba(0, 0, 0, 0.8); /* Fond sombre derrière */
 }
 
+.crypto-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
 .popup-content {
   display: flex;
   flex-direction: column;
@@ -585,4 +639,25 @@ button:disabled:hover,
   background: transparent;
   color: #444;
   border: 1px solid #444;
+}
+/* Style pour la zone de commandes dans la sidebar */
+#order-history {
+  margin-top: 15px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+#order-history span:hover {
+  color: #fff !important;
+  text-shadow: 0 0 5px var(--accent);
+}
+#qrcode {
+  background: white; /* Fond blanc pour que les lecteurs QR lisent bien */
+  padding: 10px;
+  display: inline-block;
+  margin: 15px 0;
+  border: 2px solid var(--primary);
+}
+
+#qrcode img {
+  display: block; /* Évite les espaces vides sous l'image */
 }

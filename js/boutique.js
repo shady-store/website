@@ -34,7 +34,6 @@ async function loadProducts() {
     records.forEach((product) => {
       const date = new Date(product.created).toLocaleDateString();
 
-      console.log(product);
       const imageUrl = product.image
         ? pb.files.getUrl(product, product.image)
         : "placeholder.jpg";
@@ -45,8 +44,7 @@ async function loadProducts() {
       if (product.stock > 0) {
         actionButton = `
               <button
-                class="btn-buy buy-btn"
-                onclick="initiateOrder('${product.id}', '${product.price}')"
+              onclick="initiateOrder('${product.id}', '${product.name}', '${product.price}')" class="btn-buy buy-btn"
               >
                 ACHETER
               </button>
@@ -93,67 +91,172 @@ async function loadProducts() {
     console.error("Erreur chargement news:", err);
   }
 }
+// --- CONFIGURATION ---
+const MY_CRYPTO_ADDRESSES = {
+  xmr: "XMR_WALLET",
+  btc: "BTC_WALLET",
+};
 
-// Adresse de ton wallet Monero
-const MY_CRYPTO_ADDRESS = "Votre_Adresse_Monero_Ici";
+// Variable pour stocker les infos de commande actuelles
+let currentOrder = null;
 
-async function initiateOrder(productId, price) {
-  // 1. Afficher un chargement dans la popup avant d'ouvrir
-  //document.getElementById("payment-popup").textContent = "Chargement...";
-  document.getElementById("qrcode").innerHTML = "";
+// Variables temporaires pour le produit sélectionné
+let selectedProduct = null;
 
-  // On ouvre la popup vide pour montrer qu'on travaille
-  document.getElementById("payment-popup").showModal();
+// --- ÉTAPE 1 : Clic sur le produit (initiateOrder) ---
+// --- TAUX DE CONVERSION (à actualiser régulièrement) ---
+let CRYPTO_PRICES = { xmr: 0, btc: 0 };
+
+// --- Modifie ta fonction initiateOrder ---
+async function initiateOrder(productId, productName, priceInEur) {
+  if (!pb.authStore.isValid) return;
+
+  const popup = document.getElementById("payment-popup");
+  popup.showModal();
+  document.getElementById("qrcode").innerHTML = "Génération...";
+
+  // 1. CALCUL DES PRIX EN CRYPTO (Conversion en temps réel)
+  await updateExchangeRates();
+  const priceXmr = (priceInEur / CRYPTO_PRICES.xmr).toFixed(5);
+  const priceBtc = (priceInEur / CRYPTO_PRICES.btc).toFixed(8);
 
   try {
-    // 2. --- CRÉER LA COMMANDE DANS POCKETBASE ---
-    const data = {
+    // --- On crée la commande avec le prix EUR et les équivalents crypto ---
+    const record = await pb.collection("orders").create({
       product: productId,
-      price: price,
-      status: "pending",
-      // On peut ajouter l'IP ou un cookie pour associer au client
+      status: "created",
+      user: pb.authStore.model.id,
+    });
+
+    // On stocke les infos pour selectCrypto, avec les prix convertis
+    currentOrder = {
+      id: record.id,
+      priceXmr: priceXmr, // Utilisé pour le paiement
+      priceBtc: priceBtc,
+      price_at_purchase: priceXmr,
+      currency: "xmr",
+      status: "created",
     };
 
-    const record = await pb.collection("orders").create(data);
+    // On génère le QR Code (Monero par défaut)
+    selectCrypto("xmr");
 
-    // 3. --- UTILISER L'ID DE COMMANDE GÉNÉRÉ ---
-    // record.id est l'identifiant unique créé par PocketBase
-    openPaymentPopup(productId, price, record.id);
+    // UI
+    document.getElementById("popup-item-name").textContent = productName;
+    document.getElementById("popup-item-price-eur").textContent =
+      priceInEur + " €";
+    document.getElementById("order-id-display").innerText = `ID: #${record.id}`;
   } catch (err) {
-    console.error("Erreur création commande:", err);
-    document.getElementById("popup-item-name").textContent =
-      "Erreur de connexion";
+    document.getElementById("qrcode").innerHTML = "Erreur de création.";
+    console.error(err);
   }
 }
+// --- ÉTAPE 2 : Action dans la Popup ---
+
+// A) Bouton Valider -> Passe en "pending"
+async function finalizeOrder() {
+  if (!currentOrder) return;
+
+  let confirmation = confirm(
+    "En cliquant sur ok vous confirmez avoir payé la commande. Sinon veuillez annuler.",
+  );
+
+  if (confirmation) {
+    currentOrder.status = "pending";
+    try {
+      await pb.collection("orders").update(currentOrder.id, currentOrder);
+
+      // On peut fermer la popup ou afficher un message "En attente de paiement"
+      closePaymentPopup();
+      alert(
+        "Commande validée en attente de réception des fonds. Nous vous informerons de leurs bonne réception.",
+      );
+      updateAuthUI(); // Pour mettre à jour le statut dans la sidebar
+    } catch (err) {
+      alert("Erreur de validation.");
+    }
+  }
+}
+
+// B) Bouton Annuler -> Supprime la commande (si "created" ou "pending")
+async function cancelOrderInPopup() {
+  if (!currentOrder) return;
+  try {
+    await pb.collection("orders").delete(currentOrder.id);
+    closePaymentPopup();
+    updateAuthUI();
+  } catch (err) {
+    alert("Erreur lors de l'annulation.");
+  }
+}
+// ÉTAPE 2 : L'utilisateur clique sur "Valider" dans la popup
 function openPaymentPopup(itemName, itemPrice, orderId) {
-  const popup = document.getElementById("payment-popup");
-
-  // 1. Remplir les infos
   document.getElementById("popup-item-name").textContent = itemName;
-  document.getElementById("popup-item-price").textContent = itemPrice;
-  document.getElementById("popup-address").textContent = MY_CRYPTO_ADDRESS;
+  document.getElementById("popup-message").innerHTML = "";
+  document.getElementById("payment-details").style.display = "block";
 
-  // 2. --- CRÉER L'URL AVEC ID DE COMMANDE DANS LA NOTE ---
-  // On encode l'ID de commande pour qu'il passe bien dans une URL
-  const encodedOrderId = encodeURIComponent(`RetroNexus-${orderId}`);
+  // Sélectionner XMR par défaut
+  setTimeout(() => {
+    selectCrypto("xmr");
+  }, 100);
+}
 
-  // Format : monero:adresse?tx_amount=X&tx_description=ID
-  const paymentUrl = `monero:${MY_CRYPTO_ADDRESS}?tx_amount=${itemPrice}&tx_description=${encodedOrderId}`;
+function selectCrypto(type) {
+  if (!currentOrder) return;
 
-  // 3. Générer le lien du wallet local
-  const walletLink = document.getElementById("wallet-link");
-  walletLink.href = paymentUrl;
+  const address = MY_CRYPTO_ADDRESSES[type];
+  const qrContainer = document.getElementById("qrcode");
+  qrContainer.innerHTML = "";
 
-  // 4. Générer le QR Code avec cette URL complète
+  // Utiliser le bon prix selon la crypto choisie
+  let amountToPay =
+    type === "xmr" ? currentOrder.priceXmr : currentOrder.priceBtc;
+  currentOrder.currency = type;
+  currentOrder.price_at_purchase = amountToPay;
+  let paymentUrl = "";
+
+  if (type === "btc") {
+    paymentUrl = `bitcoin:${address}?amount=${amountToPay}`;
+  } else {
+    paymentUrl = `monero:${address}?tx_amount=${amountToPay}&tx_description=RetroNexus-${currentOrder.id}`;
+  }
+
+  // --- MISE À JOUR UI ---
+  document.getElementById("crypto-type").textContent = type.toUpperCase();
+  document.getElementById("popup-address").textContent = address;
+  document.getElementById("popup-amount-crypto").textContent =
+    amountToPay + " " + type.toUpperCase();
+
+  // --- GÉNÉRATION QR CODE (ancienne méthode) ---
   const qr = qrcode(0, "M");
   qr.addData(paymentUrl);
   qr.make();
-  document.getElementById("qrcode").innerHTML = qr.createImgTag(5);
-
-  // 5. Ouvrir la popup
-  popup.showModal();
+  const img = document.createElement("img");
+  img.src = qr.createDataURL(6, 10);
+  qrContainer.appendChild(img);
 }
-function closePopup() {
-  const popup = document.getElementById("payment-popup");
-  popup.close();
+function closePaymentPopup() {
+  document.getElementById("payment-popup").close();
+}
+// 2. Mise à jour via l'API (Logique simplifiée)
+async function updateExchangeRates() {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,monero&vs_currencies=eur",
+    );
+    const data = await response.json();
+
+    // On teste les deux formats possibles pour être tranquille
+    const btcPrice = data.bitcoin ? data.bitcoin.eur : data.btc;
+    const xmrPrice = data.monero ? data.monero.eur : data.xmr;
+
+    if (btcPrice && xmrPrice) {
+      CRYPTO_PRICES.btc = btcPrice;
+      CRYPTO_PRICES.xmr = xmrPrice;
+    } else {
+      console.error("Format de réponse inconnu :", data);
+    }
+  } catch (error) {
+    console.error("❌ Erreur de récupération des taux :", error);
+  }
 }
