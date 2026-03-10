@@ -73,6 +73,14 @@ async function loadUserOrders(container) {
     records.forEach((order) => {
       const productName = order.expand?.product?.name || "Produit supprimé";
       const isPending = order.status === "pending";
+      const date = new Date(order.updated);
+      const dateMaj = date.toLocaleString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
       let statusClass = null;
       if (order.status === "pending") {
         statusClass = "offline";
@@ -91,7 +99,7 @@ async function loadUserOrders(container) {
       html += `
         <div style="border-bottom: 1px solid #222; padding: 5px 0; overflow: hidden;">
             ${deleteBtn}
-            <div style="color:#aaa;">${productName}</div>
+            <div style="color:#aaa;">${productName} (${dateMaj})</div>
             <div class="${statusClass}" style="font-size:0.7rem;">STATUS: ${order.status.toUpperCase()}</div>
         </div>
     `;
@@ -119,6 +127,7 @@ async function deleteOrder(orderId) {
     if (orderHistoryContainer) {
       loadUserOrders(orderHistoryContainer);
     }
+    loadProducts();
   } catch (err) {
     console.error("Erreur suppression :", err);
     alert("Impossible de supprimer la commande.");
@@ -145,6 +154,7 @@ function updateAuthUI() {
     // Affiche l'username ou l'email si l'username est vide
     userDisplay.innerText = `USER: ${pb.authStore.model.name || pb.authStore.model.email}`;
     loadChatHistory();
+    subscribeToMessages();
     // --- CHARGEMENT DES COMMANDES ---
     loadUserOrders(orderHistoryContainer);
   } else {
@@ -167,7 +177,6 @@ async function login() {
       updateAuthUI();
       return;
     }
-    subscribeToMessages();
     cleanOldOrders();
     updateAuthUI();
     updateProductsUI();
@@ -180,6 +189,7 @@ function logout() {
   cleanOldOrders();
   // 1. On coupe l'abonnement Realtime
   pb.collection("messages").unsubscribe();
+  subscribed = false;
 
   // 2. On vide le store (suppression du token)
   pb.authStore.clear();

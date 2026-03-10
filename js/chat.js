@@ -18,13 +18,17 @@ async function loadChatHistory() {
     console.error("Erreur de chargement du chat :", err);
   }
 }
+let subscribed = false;
 async function subscribeToMessages() {
-  // On s'abonne à TOUS les événements sur la collection 'messages'
-  pb.collection("messages").subscribe("*", function (e) {
-    if (e.action === "create") {
-      renderMessage(e.record); // Une fonction pour ajouter le message au HTML
-    }
-  });
+  if (!subscribed) {
+    // On s'abonne à TOUS les événements sur la collection 'messages'
+    pb.collection("messages").subscribe("*", function (e) {
+      if (e.action === "create") {
+        renderMessage(e.record); // Une fonction pour ajouter le message au HTML
+      }
+    });
+    subscribed = true;
+  }
 }
 async function renderMessage(record) {
   const chatWindow = document.getElementById("chat-window");

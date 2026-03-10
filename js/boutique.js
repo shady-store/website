@@ -172,6 +172,7 @@ async function finalizeOrder() {
         "Commande validée en attente de réception des fonds. Nous vous informerons de leurs bonne réception.",
       );
       updateAuthUI(); // Pour mettre à jour le statut dans la sidebar
+      loadProducts();
     } catch (err) {
       alert("Erreur de validation.");
     }
@@ -184,6 +185,7 @@ async function cancelOrderInPopup() {
   try {
     await pb.collection("orders").delete(currentOrder.id);
     closePaymentPopup();
+    loadProducts();
     updateAuthUI();
   } catch (err) {
     alert("Erreur lors de l'annulation.");
