@@ -12,6 +12,14 @@ function showView(viewId) {
     window.scrollTo(0, 0);
   }, 300);
 }
+async function addLinksBehavior() {
+  document.querySelectorAll("a.articlelink").forEach((link) => {
+    console.log("ajout lien");
+    link.addEventListener("click", (e) => {
+      showFullArticle(link.id.split("-")[1]);
+    });
+  });
+}
 // Liaison avec tes liens de navigation
 document.querySelectorAll(".main-nav a").forEach((link) => {
   link.addEventListener("click", (e) => {
@@ -63,6 +71,7 @@ async function loadNews() {
   } catch (err) {
     console.error("Erreur chargement news:", err);
   }
+  addLinksBehavior();
 } // --- FONCTION POUR PEUPLER LE SOUS-MENU DES ARTICLES ---
 function createLink(post) {
   const link = document.createElement("a");
@@ -183,3 +192,10 @@ function setupMobileMenu() {
     }
   });
 }
+const dialog = document.getElementById("cgvDialog");
+const openBtn = document.getElementById("openCGV");
+
+// Ouvrir la modale
+openBtn.addEventListener("click", () => {
+  dialog.showModal(); // Utiliser showModal pour bloquer l'interaction avec le reste de la page
+});

@@ -111,15 +111,6 @@ let CRYPTO_PRICES = { xmr: 0, btc: 0 };
 async function initiateOrder(productId, productName, priceInEur) {
   if (!pb.authStore.isValid) return;
 
-  const popup = document.getElementById("payment-popup");
-  popup.showModal();
-  document.getElementById("qrcode").innerHTML = "Génération...";
-
-  // 1. CALCUL DES PRIX EN CRYPTO (Conversion en temps réel)
-  await updateExchangeRates();
-  const priceXmr = (priceInEur / CRYPTO_PRICES.xmr).toFixed(5);
-  const priceBtc = (priceInEur / CRYPTO_PRICES.btc).toFixed(8);
-
   try {
     // --- On crée la commande avec le prix EUR et les équivalents crypto ---
     const record = await pb.collection("orders").create({
@@ -128,27 +119,44 @@ async function initiateOrder(productId, productName, priceInEur) {
       user: pb.authStore.model.id,
     });
 
-    // On stocke les infos pour selectCrypto, avec les prix convertis
-    currentOrder = {
-      id: record.id,
-      priceXmr: priceXmr, // Utilisé pour le paiement
-      priceBtc: priceBtc,
-      price_at_purchase: priceXmr,
-      currency: "xmr",
-      status: "created",
-    };
+    if (record) {
+      const popup = document.getElementById("payment-popup");
+      popup.showModal();
+      document.getElementById("qrcode").innerHTML = "Génération...";
 
-    // On génère le QR Code (Monero par défaut)
-    selectCrypto("xmr");
+      // 1. CALCUL DES PRIX EN CRYPTO (Conversion en temps réel)
+      await updateExchangeRates();
+      const priceXmr = (priceInEur / CRYPTO_PRICES.xmr).toFixed(5);
+      const priceBtc = (priceInEur / CRYPTO_PRICES.btc).toFixed(8);
 
-    // UI
-    document.getElementById("popup-item-name").textContent = productName;
-    document.getElementById("popup-item-price-eur").textContent =
-      priceInEur + " €";
-    document.getElementById("order-id-display").innerText = `ID: #${record.id}`;
+      // On stocke les infos pour selectCrypto, avec les prix convertis
+      currentOrder = {
+        id: record.id,
+        priceXmr: priceXmr, // Utilisé pour le paiement
+        priceBtc: priceBtc,
+        price_at_purchase: priceXmr,
+        currency: "xmr",
+        status: "created",
+      };
+
+      // On génère le QR Code (Monero par défaut)
+      selectCrypto("xmr");
+
+      // UI
+      document.getElementById("popup-item-name").textContent = productName;
+      document.getElementById("popup-item-price-eur").textContent =
+        priceInEur + " €";
+      document.getElementById("order-id-display").innerText =
+        `ID: #${record.id}`;
+    } else {
+      alert("Impossible d'initier la commande, réessayez plus tard.");
+    }
   } catch (err) {
     document.getElementById("qrcode").innerHTML = "Erreur de création.";
     console.error(err);
+    alert(
+      "Impossible d'initier la commande, réessayez plus tard. (" + err + ")",
+    );
   }
 }
 // --- ÉTAPE 2 : Action dans la Popup ---

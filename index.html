@@ -29,13 +29,13 @@
 /____/_/ /_/_/  |_/_____/ /_//____//_/  \____/_/ |_/_____/   
         </pre
       >
-      <div class="status-bar">
-        <span class="status"
-          >● CLOUD(FR): <span class="offline">OFFLINE</span></span
-        >
-        <span class="status"
-          >● RETROPOCKET BATCH #01: <span class="stock">1/4 DISPOS</span></span
-        >
+      <div class="terminal-container">
+        <div class="dot-overlay"></div>
+
+        <div class="scrolling-text">
+          <span>SYSTEM STATUS: OFFLINE</span>
+          <span>SYSTEM STATUS: OFFLINE</span>
+        </div>
       </div>
     </header>
 
@@ -54,11 +54,7 @@
         <section id="view-news" class="page-view">
           <section id="intro" class="intro">
             <h2>>_ LES_ACTUS</h2>
-            <p>
-              Salut, je m'appelle Olivier et ce site présente mes différents
-              projets autour du retro-gaming et de la sécurité informatique.
-              Vous pouvez également les acheter via la boutique.
-            </p>
+            <p></p>
           </section>
         </section>
         <section
@@ -71,39 +67,16 @@
         </section>
         <section id="view-about" class="page-view" style="display: none">
           <h2>>_ MANIFESTE</h2>
-          <p class="justified">
-            Ce site regroupe des informations autour des réalisations techniques
-            que j’ai mises en place au cours du temps. Ce sont souvent des défis
-            que je me suis jetés par rapport à la résolution d’un problème du
-            quotidien.<br /><br />
-            Plutôt que de garder ces solutions pour moi je me suis dit qu’il
-            serait enrichissant de les partager sous forme de tutoriels qui vous
-            permettraient d’en bénéficier, ou, pour ceux qui le souhaitent,
-            parfois directement sous la forme d’un produit fini.<br /><br />
-            Attention cependant, je ne prétends pas être un professionnel ni
-            même un puriste, vous ne trouverez donc pas ici d’informations ultra
-            pointues pour par exemple émuler une console pixel perfect ou encore
-            obtenir une latence native. J’aborde les sujets sous l’angle de la
-            solution technique qui me convient, pragmatique et innovante et si
-            possible communautaire.<br /><br />
-            Le projet s’inscrit également dans un contexte particulier, celui où
-            l’espace et la vie numérique deviennent de plus en plus ostiles aux
-            individus au travers des agissements des Etats, des corporations ou
-            des activistes. <br /><br />
-            C’est pourquoi il me semble aujourd’hui primordial de retrouver une
-            forme de souveraineté et de liberté dans l’usage de l’outil
-            numérique. C’est en ce sens que mon approche est engagée.
+          <p class="center">
+            Les gouvernements nous surveillent.
             <br /><br />
-            Pour ces mêmes raisons vous ne trouverez pas d’informations
-            permettant de m’identifier et je m’engage à ne vous en réclamer et
-            donc conserver aucune vous concernant.<br /><br />
-            Les comptes et les paiements sont donc anonymisés au travers de
-            l’utilisation de Monero (XMR) et je vous invite fortement à utiliser
-            une adresse email jetable dédiée pour votre compte utilisateur.<br /><br />
-            Je crois que le temps est venu de retourner aux sources d’internet à
-            savoir un réseau anonyme et décentralisé garant de la liberté
-            d’usage de chacun.<br /><br />
-            Olivier.
+            Les multinationales nous exploitent.
+            <br /><br />
+            Les criminels nous attaquent.
+            <br /><br />
+            La réalité nous échappe.
+            <br /><br />
+            Rebellez-vous !
           </p>
         </section>
       </main>
@@ -202,7 +175,7 @@
     <div id="register-modal" class="modal">
       <div class="modal-content post">
         <h3>// SYSTEM_REGISTRATION</h3>
-        <p class="specs">REQUIS: EMAIL JETABLE CONSEILLÉ</p>
+        <p class="specs">EMAIL DÉDIÉ ANONYME CONSEILLÉ</p>
 
         <div class="auth-box">
           <input type="email" id="reg-email" placeholder="ID: email" />
@@ -225,14 +198,94 @@
         ></div>
       </div>
     </div>
+    <dialog id="cgvDialog" class="dialogcgv">
+      <div class="dialog-header">
+        <h2>Conditions Générales de Vente</h2>
+      </div>
 
+      <div class="dialog-body">
+        <p><em>Dernière mise à jour : 28 février 2026</em></p>
+
+        <hr />
+
+        <br /><br />
+        <h3>Article 1 : Objet</h3>
+        <p>
+          Les présentes CGV régissent la vente de produits et services
+          électroniques. Elles visent à définir les relations contractuelles
+          entre le vendeur et l'acheteur.
+        </p>
+        <br /><br />
+
+        <h3>Article 2 : Prix et Paiement</h3>
+        <p>
+          Les prix affichés sont en Euros (€). Le paiement est exigible
+          immédiatement à la commande par :
+        </p>
+        <ul>
+          <li>Monero (XMR)</li>
+          <li>Bitcoin (BTC)</li>
+        </ul>
+        <br /><br />
+
+        <h3>Article 3 : Livraison</h3>
+        <p>
+          Les produits sont livrés en point relais de votre choix exclusivement.
+          La sélection du point relais se fait après réception du paiement. Pour
+          cela vous serez contacté au travers de l'adresse mail saisie lors de
+          l'inscription. Les délais moyens constatés sont de
+          <strong>3 à 5 jours ouvrés</strong> pour la France métropolitaine à
+          partir du dépôt du colis (shipped).
+        </p>
+        <br /><br />
+
+        <h3>Article 4 : Droit de rétractation</h3>
+        <p>
+          Vous disposez d'un délai de <strong>14 jours</strong> pour changer
+          d'avis. Le produit doit être retourné dans son emballage d'origine,
+          aux frais de l'acheteur. Les demandes de retour se font par mail en
+          fournissant le numéro de commande à l'adresse
+          <a href="mailto:obenyahia2@proton.me">contact</a>.
+        </p>
+        <br /><br />
+
+        <h3>Article 5 : Garanties</h3>
+        <p>
+          Les produits sont garantis <strong>1 mois</strong> à partir de leur
+          expédition (shipped) et seront remplacés dans la limite des stocks
+          disponibles. La garantie ne couvre que les cas d'usage normaux et le
+          vendeur se réserve le droit de refuser d'honorer la garantie si des
+          preuves d'usage inapproprié sont trouvées.
+        </p>
+        <br /><br />
+
+        <h3>Article 6 : Données personnelles</h3>
+        <p>
+          Vos données sont collectées uniquement pour le traitement de votre
+          commande. Vous disposez d'un droit d'accès et de suppression en nous
+          contactant par email.
+        </p>
+      </div>
+      <br /><br />
+
+      <div class="dialog-footer">
+        <form method="dialog">
+          <button class="btn-confirm">J'ai compris</button>
+        </form>
+      </div>
+    </dialog>
     <footer>
-      <p>Shadystore 2026</p>
+      <p>
+        Shadystore 1.0 -
+        <a href="#" id="openCGV">CGV</a>
+        - 2026
+      </p>
     </footer>
 
     <script>
       const pb = new PocketBase("https://www.shady-store.com");
     </script>
+    <script src="js/panel.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/boutique.js"></script>
     <script src="js/chat.js"></script>

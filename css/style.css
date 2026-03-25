@@ -30,8 +30,8 @@ header {
   margin-bottom: 30px;
 }
 .ascii-art {
-  font-size: 8px;
-  line-height: 8px;
+  font-size: 30px;
+  line-height: 30px;
   color: var(--primary);
   font-weight: bold;
   overflow-x: hidden;
@@ -107,6 +107,7 @@ h3 {
   padding: 20px;
   margin-top: 10px;
   margin-bottom: 15px;
+  text-align: justify;
 }
 .news-meta {
   font-size: 11px;
@@ -443,6 +444,9 @@ p.description {
 .justified {
   text-align: justify;
 }
+.center {
+  text-align: center;
+}
 .modal {
   display: none;
   position: fixed;
@@ -586,6 +590,22 @@ dialog {
   transform: translate(-50%, -50%);
   margin: 0; /* Important pour enlever les marges par défaut */
 }
+.dialogcgv {
+  max-width: 600px;
+  background: #000;
+  border: 1px solid #00ff00;
+  padding: 20px;
+  color: var(--text);
+  width: 90%;
+
+  /* --- CENTRAGE MAGIQUE --- */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0; /* Important pour enlever les marges par défaut */
+  text-align: justify;
+}
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.8); /* Fond sombre derrière */
@@ -660,4 +680,73 @@ button:disabled:hover,
 
 #qrcode img {
   display: block; /* Évite les espaces vides sous l'image */
+}
+.terminal-container {
+  background: #000;
+  border: 4px solid #333;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* La grille de points (Dot Matrix) */
+.dot-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, #000 1px, transparent 1px);
+  background-size: 3px 3px; /* Taille des points */
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Le texte style Hacker / LCD */
+.scrolling-text {
+  white-space: nowrap;
+  display: flex;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
+  text-transform: uppercase;
+}
+
+/* Animation de défilement */
+.scrolling-text span {
+  display: inline-block;
+  padding-right: 50px;
+  animation: marquee 160s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Petit effet de scintillement (Flicker) pour le réalisme */
+@keyframes flicker {
+  0% {
+    opacity: 0.97;
+  }
+  5% {
+    opacity: 0.9;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.98;
+  }
+}
+.terminal-container {
+  animation: flicker 0.1s infinite;
 }
