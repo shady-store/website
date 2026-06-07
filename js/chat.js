@@ -48,7 +48,7 @@ input.addEventListener("keypress", (e) => {
     sendMessage();
   }
 });
-async function sendMessage() {
+async function _sendMessageBody() {
   const messageInput = document.getElementById("user-input");
   const content = messageInput.value;
 
@@ -72,3 +72,10 @@ async function sendMessage() {
     alert("Impossible d'envoyer le message.");
   }
 }
+
+// Throttle : un message toutes les 2 secondes max
+const sendMessage = throttleCall(
+  _sendMessageBody,
+  2000,
+  "Merci d'attendre avant d'envoyer un autre message.",
+);

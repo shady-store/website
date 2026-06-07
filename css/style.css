@@ -750,3 +750,330 @@ button:disabled:hover,
 .terminal-container {
   animation: flicker 0.1s infinite;
 }
+/* ── Tables — style terminal rétro ── */
+.tuto-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 12px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+}
+/* Header : fond vert terminal, texte noir */
+.tuto-table th {
+  background: var(--primary);
+  color: #000;
+  font-weight: bold;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border);
+}
+/* Prefix "> " sur chaque en-tête */
+.tuto-table th::before {
+  content: "> ";
+  color: rgba(0, 0, 0, 0.4);
+}
+/* Dernier header aligné à droite (colonne "Remarque") */
+.tuto-table th:last-child {
+  text-align: right;
+}
+/* Cellules */
+.tuto-table td {
+  padding: 6px 10px;
+  border-bottom: 1px dotted #222;
+  color: var(--text);
+  vertical-align: top;
+}
+/* Plus de bordure sur la dernière ligne */
+.tuto-table tr:last-child td {
+  border-bottom: none;
+}
+/* Première colonne : label en vert terminal, gras */
+.tuto-table td:first-child {
+  color: var(--primary);
+  font-weight: bold;
+}
+/* Dernière colonne : remarque en gris, petite, à droite */
+.tuto-table td:last-child {
+  color: #666;
+  font-size: 10px;
+  text-align: right;
+}
+/* Hover : lueur subtile sur la ligne */
+.tuto-table tr:hover td {
+  background: rgba(0, 255, 65, 0.04);
+}
+.tuto-table tr:hover td:first-child {
+  text-shadow: 0 0 6px var(--primary);
+}
+.tuto {
+  color: var(--text);
+}
+
+/* ── Hero ASCII ── */
+.tuto-hero {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.tuto-hero .ascii-art {
+  font-size: 18px;
+  line-height: 18px;
+}
+.tuto-tagline {
+  color: var(--text);
+  font-size: 13px;
+  margin-top: 10px;
+}
+.tuto-badges {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tuto-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+}
+
+/* ── TOC ── */
+.tuto-toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 15px;
+  margin-bottom: 25px;
+}
+.tuto-toc h2 {
+  color: var(--accent);
+  font-size: 14px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.tuto-toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+.tuto-toc li {
+  margin-bottom: 3px;
+}
+.tuto-toc a {
+  color: var(--primary);
+  font-size: 12px;
+}
+.tuto-toc a:hover {
+  color: #fff;
+  text-shadow: 0 0 5px var(--primary);
+}
+.tuto-toc ul ul {
+  padding-left: 15px;
+}
+.tuto-toc ul ul a {
+  font-size: 11px;
+  color: #666;
+}
+.tuto-toc ul ul a:hover {
+  color: var(--primary);
+}
+
+/* ── Sections ── */
+.tuto-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 15px;
+}
+.tuto-section h2 {
+  color: var(--primary);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
+  font-size: 14px;
+  margin-bottom: 12px;
+  margin-top: 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+.tuto-section h2 .sec-num {
+  color: var(--accent);
+  text-shadow: 0 0 5px rgba(255, 202, 0, 0.4);
+  margin-right: 6px;
+}
+.tuto-section h3 {
+  color: var(--accent);
+  font-size: 12px;
+  margin: 14px 0 8px;
+}
+.tuto-section h4 {
+  color: #fff;
+  font-size: 11px;
+  margin: 12px 0 6px;
+}
+.tuto-section p {
+  font-size: 12px;
+  text-align: justify;
+  margin-bottom: 10px;
+}
+
+/* ── Code blocks ── */
+.tuto-section pre {
+  background: #000;
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.tuto-section pre code {
+  font-family: "Courier New", Courier, monospace;
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: 11px;
+}
+/* inline code */
+.tuto-section p code,
+.tuto-section li code,
+.tuto-section td code {
+  font-family: "Courier New", Courier, monospace;
+  background: #000;
+  border: 1px solid var(--border);
+  padding: 1px 4px;
+  font-size: 11px;
+  color: var(--primary);
+}
+
+/* ── Callouts ── */
+.tuto-callout {
+  border-left: 3px solid var(--primary);
+  background: rgba(0, 255, 65, 0.04);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+.tuto-callout strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+.tuto-callout.warn {
+  border-left-color: var(--accent);
+  background: rgba(255, 202, 0, 0.04);
+}
+.tuto-callout.warn strong {
+  color: var(--accent);
+}
+.tuto-callout.ok {
+  border-left-color: #3fb950;
+  background: rgba(63, 185, 80, 0.04);
+}
+.tuto-callout.ok strong {
+  color: #3fb950;
+}
+
+/* ── Steps ── */
+.tuto-step {
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.tuto-step-num {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 11px;
+  margin-right: 6px;
+}
+.tuto-step h3 {
+  display: inline;
+  margin: 0;
+  color: var(--primary);
+}
+
+/* ── Lists ── */
+.tuto-section ul,
+.tuto-section ol {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+.tuto-section li {
+  font-size: 12px;
+  margin-bottom: 3px;
+  color: var(--text);
+}
+
+/* ── Checklist ── */
+.tuto-checklist {
+  list-style: none;
+  padding-left: 0;
+}
+.tuto-checklist li {
+  font-size: 11px;
+  padding: 3px 0 3px 16px;
+  position: relative;
+}
+.tuto-checklist li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+/* ── Tables ── */
+.tuto-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+.tuto-table th,
+.tuto-table td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: left;
+}
+.tuto-table th {
+  background: #000;
+  color: var(--primary);
+  font-weight: bold;
+}
+.tuto-table td {
+  color: var(--text);
+}
+
+/* ── File header ── */
+.tuto-file {
+  font-size: 10px;
+  color: var(--accent);
+  background: #000;
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  display: inline-block;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+/* ── Separator ── */
+.tuto-sep {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 15px 0;
+}
+
+/* ── Footer ── */
+.tuto-footer {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 10px;
+  color: #444;
+  border-top: 1px solid var(--border);
+}

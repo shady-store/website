@@ -164,7 +164,7 @@ function updateAuthUI() {
   }
 }
 // Fonction de Connexion
-async function login() {
+async function _loginBody() {
   const email = document.getElementById("email").value;
   const pass = document.getElementById("password").value;
 
@@ -184,6 +184,11 @@ async function login() {
     alert("ERREUR D'ACCÈS: Vérifiez vos identifiants.");
   }
 }
+const login = throttleCall(
+  _loginBody,
+  3000,
+  "Trop de tentatives. Attendez quelques secondes.",
+);
 // Fonction de Déconnexion
 function logout() {
   cleanOldOrders();

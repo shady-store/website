@@ -108,7 +108,7 @@ let selectedProduct = null;
 let CRYPTO_PRICES = { xmr: 0, btc: 0 };
 
 // --- Modifie ta fonction initiateOrder ---
-async function initiateOrder(productId, productName, priceInEur) {
+async function _initiateOrderBody(productId, productName, priceInEur) {
   if (!pb.authStore.isValid) return;
 
   try {
@@ -159,6 +159,13 @@ async function initiateOrder(productId, productName, priceInEur) {
     );
   }
 }
+
+// Throttle : une commande toutes les 3 secondes max
+const initiateOrder = throttleCall(
+  _initiateOrderBody,
+  3000,
+  "Commande en cours. Attendez avant d'en lancer une autre.",
+);
 // --- ÉTAPE 2 : Action dans la Popup ---
 
 // A) Bouton Valider -> Passe en "pending"
