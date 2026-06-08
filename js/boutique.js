@@ -148,6 +148,7 @@ async function _initiateOrderBody(productId, productName, priceInEur) {
         priceInEur + " €";
       document.getElementById("order-id-display").innerText =
         `ID: #${record.id}`;
+      document.getElementById("delivery-address").value = "";
     } else {
       alert("Impossible d'initier la commande, réessayez plus tard.");
     }
@@ -172,6 +173,14 @@ const initiateOrder = throttleCall(
 async function finalizeOrder() {
   if (!currentOrder) return;
 
+  const deliveryAddress = document
+    .getElementById("delivery-address")
+    .value.trim();
+  if (!deliveryAddress) {
+    alert("Veuillez saisir l'adresse du point de livraison.");
+    return;
+  }
+
   let confirmation = confirm(
     "En cliquant sur ok vous confirmez avoir payé la commande. Sinon veuillez annuler.",
   );
@@ -179,7 +188,10 @@ async function finalizeOrder() {
   if (confirmation) {
     currentOrder.status = "pending";
     try {
-      await pb.collection("orders").update(currentOrder.id, currentOrder);
+      await pb.collection("orders").update(currentOrder.id, {
+        ...currentOrder,
+        delivery_address: deliveryAddress,
+      });
 
       // On peut fermer la popup ou afficher un message "En attente de paiement"
       closePaymentPopup();
